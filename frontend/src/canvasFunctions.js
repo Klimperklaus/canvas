@@ -17,15 +17,12 @@ export function drawRectangle(canvas, event, scale) {
   if (canvas) {
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "rgba(200, 0, 0, 1)";
-    // for-loop needed to get fully filled rectangles
-    // for (let i = 0; i < 20; i++) {
     ctx.fillRect(
       getCursorPosition(canvas, event, scale).X,
       getCursorPosition(canvas, event, scale).Y,
       1,
       1
     ); // x, y, w, h
-    // }
   }
 }
 
