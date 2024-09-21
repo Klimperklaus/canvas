@@ -16,18 +16,16 @@ export function setBgColor(canvas) {
 export function drawRectangle(canvas, event, scale) {
   if (canvas) {
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgb(200 0 0)";
-    const rect = canvas.getBoundingClientRect();
+    ctx.fillStyle = "rgba(200, 0, 0, 1)";
     // for-loop needed to get fully filled rectangles
-    for (let i = 0; i < 10; i++) {
-      ctx.fillRect(
-        ((event.clientX - rect.left) / scale).toFixed(2),
-        ((event.clientY - rect.top) / scale).toFixed(2),
-        1,
-        1
-      ); // x, y, w, h
-    }
-    // ctx.strokeRect(10, 10, 2.5, 2.5);
+    // for (let i = 0; i < 20; i++) {
+    ctx.fillRect(
+      getCursorPosition(canvas, event, scale).X,
+      getCursorPosition(canvas, event, scale).Y,
+      1,
+      1
+    ); // x, y, w, h
+    // }
   }
 }
 
@@ -43,6 +41,7 @@ export function zoomCanvas(canvas, event, scale) {
     scale += event.deltaY * -0.002;
     scale = Math.min(Math.max(1, scale), 3);
     canvas.style.transform = `scale(${scale})`;
+    resize(canvas.width, canvas.height);
     return scale;
   }
 }
@@ -52,9 +51,6 @@ export function getCursorPosition(canvas, event, scale) {
     const rect = canvas.getBoundingClientRect();
     let x = ((event.clientX - rect.left) / scale).toFixed(2);
     let y = ((event.clientY - rect.top) / scale).toFixed(2);
-    console.log(`X: ${x}, Y: ${y}`);
-    console.log(
-      `rect left: ${rect.left.toFixed(2)}, rect top: ${rect.top.toFixed(2)}`
-    );
+    return { X: x, Y: y };
   }
 }
