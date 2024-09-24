@@ -20,8 +20,8 @@ export function drawRectangle(canvas, event, scale) {
     ctx.fillRect(
       getCursorPosition(canvas, event, scale).X,
       getCursorPosition(canvas, event, scale).Y,
-      1,
-      1
+      3,
+      3
     ); // x, y, w, h
   }
 }
@@ -38,7 +38,6 @@ export function zoomCanvas(canvas, event, scale) {
     scale += event.deltaY * -0.002;
     scale = Math.min(Math.max(1, scale), 3);
     canvas.style.transform = `scale(${scale})`;
-    resize(canvas.width, canvas.height);
     return scale;
   }
 }
