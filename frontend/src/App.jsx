@@ -6,7 +6,8 @@ import {
   zoomCanvas,
   getCursorPosition,
   setContext,
-  getSavedCtx
+  getSavedCtx,
+  setSavedCtx,
 } from "./canvasFunctions";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   let scale = 1;
   let canvasWidth = 400;
   let canvasHeight = 250;
+  let savedContext = null;
   
   const [canvas, SetCanvas] = useState(null);
   const context = setContext(canvas);
@@ -36,10 +38,11 @@ export default function App() {
         width={canvasWidth}
         height={canvasHeight}
         onWheel={(e) => {
+          savedContext = getSavedCtx();
           scale = zoomCanvas(context, e, scale);
           context.canvas.width = canvasWidth * scale;
           context.canvas.height = canvasHeight * scale;
-          context.restore(getSavedCtx());
+          context.restore();
         }}
         onClick={(e) => {
           getCursorPosition(context, e, scale);

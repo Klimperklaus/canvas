@@ -15,7 +15,7 @@ export function setContext(canvas) {
 
 export function setSavedCtx(ctxToSave) {
   console.log("save new ctx");
-  savedCtx = ctxToSave;
+  savedCtx = ctxToSave.save();
 }
 
 export function getSavedCtx() {
@@ -47,7 +47,7 @@ export function drawRectangle(context, event, scale) {
       5,
       5
     ); // x, y, w, h
-    setSavedCtx(context.save());
+    setSavedCtx(context);
   }
 }
 
