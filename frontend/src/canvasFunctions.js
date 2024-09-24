@@ -4,6 +4,17 @@ export function setBgColor(canvas) {
   }
 }
 
+let context = null;
+let savedCtx = null;
+
+export function createContext(canvas) {
+  if (canvas) {
+    context = canvas.getContext("2d");
+    console.log("context in function");
+    return context;
+  }
+}
+
 /**
  *
  * @param canvas > used element
@@ -15,14 +26,14 @@ export function setBgColor(canvas) {
  */
 export function drawRectangle(canvas, event, scale) {
   if (canvas) {
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "rgba(200, 0, 0, 1)";
-    ctx.fillRect(
-      getCursorPosition(canvas, event, scale).X,
-      getCursorPosition(canvas, event, scale).Y,
-      3,
-      3
+    context.fillStyle = "rgba(200, 0, 0, 1)";
+    context.fillRect(
+      parseInt(getCursorPosition(canvas, event, scale).X),
+      parseInt(getCursorPosition(canvas, event, scale).Y),
+      5,
+      5
     ); // x, y, w, h
+    savedCtx = context.save();
   }
 }
 
@@ -38,7 +49,7 @@ export function zoomCanvas(canvas, event, scale) {
     scale += event.deltaY * -0.002;
     scale = Math.min(Math.max(1, scale), 3);
     canvas.style.transform = `scale(${scale})`;
-    return scale;
+    return {Scale: scale, Ctx: savedCtx};
   }
 }
 

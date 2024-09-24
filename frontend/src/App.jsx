@@ -5,18 +5,22 @@ import {
   drawRectangle,
   zoomCanvas,
   getCursorPosition,
+  createContext
 } from "./canvasFunctions";
 
 export default function App() {
+  useEffect(() => {
+    SetCanvas(document.querySelector("canvas"));
+    console.log("canvas set")
+  }, []);
+
   let scale = 1;
   let canvasWidth = 400;
   let canvasHeight = 250;
   const [canvas, SetCanvas] = useState(null);
-
-  useEffect(() => {
-    SetCanvas(document.querySelector("canvas"));
-  }, []);
-
+  const context = createContext(canvas);
+  let savedCtx = null;
+  
   setBgColor(canvas);
   return (
     <div
@@ -32,9 +36,11 @@ export default function App() {
         width={canvasWidth}
         height={canvasHeight}
         onWheel={(e) => {
-          scale = zoomCanvas(canvas, e, scale);
+          // savedCtx = zoomCanvas(canvas, e, scale).Ctx;
+          scale = zoomCanvas(canvas, e, scale).Scale;
           canvas.width = canvasWidth * scale;
           canvas.height = canvasHeight * scale;
+          // ctx.restore(savedCtx);
         }}
         onClick={(e) => {
           getCursorPosition(canvas, e, scale);
