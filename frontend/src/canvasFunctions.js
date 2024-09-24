@@ -1,35 +1,39 @@
-export function setBgColor(canvas) {
-  if (canvas) {
-    canvas.style = "background-color: white";
-  }
-}
-
 let context = null;
 let savedCtx = null;
 
+/**
+ * 
+ * @param canvas > canvas element 
+ * @returns > created 2d context of canvas element
+ */
 export function createContext(canvas) {
   if (canvas) {
     context = canvas.getContext("2d");
-    console.log("context in function");
     return context;
+  }
+}
+
+export function setBgColor(context) {
+  if (context) {
+    context.canvas.style = "background-color: white";
   }
 }
 
 /**
  *
- * @param canvas > used element
+ * @param context > used context from canvas
  * @param event > eventHandler
  * @param scale > current scale
- * @description > Creates 2d context for canvas and a rectangle
+ * @description > Uses the context from canvas element to create a rectangle
  * filled with user color placed at the current cursor location relative
- * to the canvas scale and position on screen. Rectangle size is 1x1.
+ * to the canvas scale and position on screen. Rectangle size is 5x5.
  */
-export function drawRectangle(canvas, event, scale) {
-  if (canvas) {
+export function drawRectangle(context, event, scale) {
+  if (context) {
     context.fillStyle = "rgba(200, 0, 0, 1)";
     context.fillRect(
-      parseInt(getCursorPosition(canvas, event, scale).X),
-      parseInt(getCursorPosition(canvas, event, scale).Y),
+      parseInt(getCursorPosition(context, event, scale).X),
+      parseInt(getCursorPosition(context, event, scale).Y),
       5,
       5
     ); // x, y, w, h
@@ -39,23 +43,23 @@ export function drawRectangle(canvas, event, scale) {
 
 /**
  *
- * @param canvas > used element
+ * @param context > used context from canvas
  * @param event > eventHandler
  * @param scale > current scale
  * @returns > new scale
  */
-export function zoomCanvas(canvas, event, scale) {
-  if (canvas) {
+export function zoomCanvas(context, event, scale) {
+  if (context) {
     scale += event.deltaY * -0.002;
     scale = Math.min(Math.max(1, scale), 3);
-    canvas.style.transform = `scale(${scale})`;
+    context.canvas.style.transform = `scale(${scale})`;
     return {Scale: scale, Ctx: savedCtx};
   }
 }
 
-export function getCursorPosition(canvas, event, scale) {
-  if (canvas) {
-    const rect = canvas.getBoundingClientRect();
+export function getCursorPosition(context, event, scale) {
+  if (context) {
+    const rect = context.canvas.getBoundingClientRect();
     let x = ((event.clientX - rect.left) / scale).toFixed(2);
     let y = ((event.clientY - rect.top) / scale).toFixed(2);
     return { X: x, Y: y };

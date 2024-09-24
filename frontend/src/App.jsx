@@ -11,7 +11,6 @@ import {
 export default function App() {
   useEffect(() => {
     SetCanvas(document.querySelector("canvas"));
-    console.log("canvas set")
   }, []);
 
   let scale = 1;
@@ -21,7 +20,7 @@ export default function App() {
   const context = createContext(canvas);
   let savedCtx = null;
   
-  setBgColor(canvas);
+  setBgColor(context);
   return (
     <div
       style={{
@@ -36,15 +35,15 @@ export default function App() {
         width={canvasWidth}
         height={canvasHeight}
         onWheel={(e) => {
-          // savedCtx = zoomCanvas(canvas, e, scale).Ctx;
-          scale = zoomCanvas(canvas, e, scale).Scale;
-          canvas.width = canvasWidth * scale;
-          canvas.height = canvasHeight * scale;
-          // ctx.restore(savedCtx);
+          savedCtx = zoomCanvas(context, e, scale).Ctx;
+          scale = zoomCanvas(context, e, scale).Scale;
+          context.canvas.width = canvasWidth * scale;
+          context.canvas.height = canvasHeight * scale;
+          context.restore(savedCtx);
         }}
         onClick={(e) => {
-          getCursorPosition(canvas, e, scale);
-          drawRectangle(canvas, e, scale);
+          getCursorPosition(context, e, scale);
+          drawRectangle(context, e, scale);
         }}
       ></canvas>
     </div>
