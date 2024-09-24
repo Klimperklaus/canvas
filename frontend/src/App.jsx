@@ -5,7 +5,8 @@ import {
   drawRectangle,
   zoomCanvas,
   getCursorPosition,
-  createContext
+  setContext,
+  getSavedCtx
 } from "./canvasFunctions";
 
 export default function App() {
@@ -16,9 +17,9 @@ export default function App() {
   let scale = 1;
   let canvasWidth = 400;
   let canvasHeight = 250;
+  
   const [canvas, SetCanvas] = useState(null);
-  const context = createContext(canvas);
-  let savedCtx = null;
+  const context = setContext(canvas);
   
   setBgColor(context);
   return (
@@ -35,11 +36,10 @@ export default function App() {
         width={canvasWidth}
         height={canvasHeight}
         onWheel={(e) => {
-          savedCtx = zoomCanvas(context, e, scale).Ctx;
-          scale = zoomCanvas(context, e, scale).Scale;
+          scale = zoomCanvas(context, e, scale);
           context.canvas.width = canvasWidth * scale;
           context.canvas.height = canvasHeight * scale;
-          context.restore(savedCtx);
+          context.restore(getSavedCtx());
         }}
         onClick={(e) => {
           getCursorPosition(context, e, scale);

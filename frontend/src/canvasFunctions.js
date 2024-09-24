@@ -6,11 +6,21 @@ let savedCtx = null;
  * @param canvas > canvas element 
  * @returns > created 2d context of canvas element
  */
-export function createContext(canvas) {
+export function setContext(canvas) {
   if (canvas) {
     context = canvas.getContext("2d");
     return context;
   }
+}
+
+export function setSavedCtx(ctxToSave) {
+  console.log("save new ctx");
+  savedCtx = ctxToSave;
+}
+
+export function getSavedCtx() {
+  console.log("get savedCtx")
+  return savedCtx;
 }
 
 export function setBgColor(context) {
@@ -24,7 +34,7 @@ export function setBgColor(context) {
  * @param context > used context from canvas
  * @param event > eventHandler
  * @param scale > current scale
- * @description > Uses the context from canvas element to create a rectangle
+ * @description > uses the context from canvas element to create a rectangle
  * filled with user color placed at the current cursor location relative
  * to the canvas scale and position on screen. Rectangle size is 5x5.
  */
@@ -37,7 +47,7 @@ export function drawRectangle(context, event, scale) {
       5,
       5
     ); // x, y, w, h
-    savedCtx = context.save();
+    setSavedCtx(context.save());
   }
 }
 
@@ -53,10 +63,17 @@ export function zoomCanvas(context, event, scale) {
     scale += event.deltaY * -0.002;
     scale = Math.min(Math.max(1, scale), 3);
     context.canvas.style.transform = `scale(${scale})`;
-    return {Scale: scale, Ctx: savedCtx};
+    return scale;
   }
 }
 
+/**
+ * 
+ * @param context > used context from canvas 
+ * @param event > eventHandler 
+ * @param scale > current scale 
+ * @returns > calculated X and Y cursor position based on canvas size relative to viewport 
+ */
 export function getCursorPosition(context, event, scale) {
   if (context) {
     const rect = context.canvas.getBoundingClientRect();
