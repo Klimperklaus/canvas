@@ -38,9 +38,9 @@ export function setBgColor(context) {
  * filled with user color placed at the current cursor location relative
  * to the canvas scale and position on screen. Rectangle size is 5x5.
  */
-export function drawRectangle(context, event, scale) {
+export function drawRectangle(context, event, scale, color) {
   if (context) {
-    context.fillStyle = "rgba(200, 0, 0, 1)";
+    context.fillStyle = color;
     context.fillRect(
       parseInt(getCursorPosition(context, event, scale).X),
       parseInt(getCursorPosition(context, event, scale).Y),
@@ -48,6 +48,13 @@ export function drawRectangle(context, event, scale) {
       1 * scale
     ); // x, y, w, h
     setSavedCtx(context);
+    console.log(
+      `X: ${parseInt(
+        getCursorPosition(context, event, scale).X
+      )}, Y: ${parseInt(
+        getCursorPosition(context, event, scale).Y
+      )}, color: ${color}`
+    );
   }
 }
 
@@ -76,8 +83,8 @@ export function zoomCanvas(context, event, scale) {
 export function getCursorPosition(context, event, scale) {
   if (context) {
     const rect = context.canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    let x = event.clientX - rect.left - scale / 2;
+    let y = event.clientY - rect.top - scale / 2;
     return { X: x, Y: y };
   }
 }
