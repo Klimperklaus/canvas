@@ -11,7 +11,7 @@ import {
 export default function App() {
   const [canvas, SetCanvas] = useState(null);
   const [context, SetContext] = useState(null);
-  let color = "";
+  let color = "red";
 
   let scale = 1;
   let canvasWidth = 400;
@@ -75,6 +75,12 @@ export default function App() {
               color = e.target.style.backgroundColor;
               console.log(color);
             }}
+            onMouseEnter={(e) => {
+              e.target.style.scale = "1.2";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.scale = "1.0";
+            }}
           ></li>
           <li
             style={{
@@ -86,6 +92,12 @@ export default function App() {
             onClick={(e) => {
               color = e.target.style.backgroundColor;
               console.log(color);
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.scale = "1.2";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.scale = "1.0";
             }}
           ></li>
           <li
@@ -99,6 +111,12 @@ export default function App() {
               color = e.target.style.backgroundColor;
               console.log(color);
             }}
+            onMouseEnter={(e) => {
+              e.target.style.scale = "1.2";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.scale = "1.0";
+            }}
           ></li>
           <li
             style={{
@@ -110,6 +128,12 @@ export default function App() {
             onClick={(e) => {
               color = e.target.style.backgroundColor;
               console.log(color);
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.scale = "1.2";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.scale = "1.0";
             }}
           ></li>
         </ul>
