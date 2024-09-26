@@ -2,9 +2,9 @@ let context = null;
 let savedCtx = null;
 
 /**
- * 
- * @param canvas > canvas element 
- * @returns > created 2d context of canvas element
+ *
+ * @param canvas > canvas element
+ * @returns > 2d context of canvas element
  */
 export function setContext(canvas) {
   if (canvas) {
@@ -19,7 +19,7 @@ export function setSavedCtx(ctxToSave) {
 }
 
 export function getSavedCtx() {
-  console.log("get savedCtx")
+  console.log("get savedCtx");
   return savedCtx;
 }
 
@@ -44,8 +44,8 @@ export function drawRectangle(context, event, scale) {
     context.fillRect(
       parseInt(getCursorPosition(context, event, scale).X),
       parseInt(getCursorPosition(context, event, scale).Y),
-      5,
-      5
+      1 * scale,
+      1 * scale
     ); // x, y, w, h
     setSavedCtx(context);
   }
@@ -61,24 +61,23 @@ export function drawRectangle(context, event, scale) {
 export function zoomCanvas(context, event, scale) {
   if (context) {
     scale += event.deltaY * -0.002;
-    scale = Math.min(Math.max(1, scale), 3);
-    context.canvas.style.transform = `scale(${scale})`;
+    scale = Math.min(Math.max(1, scale), 10);
     return scale;
   }
 }
 
 /**
- * 
- * @param context > used context from canvas 
- * @param event > eventHandler 
- * @param scale > current scale 
- * @returns > calculated X and Y cursor position based on canvas size relative to viewport 
+ *
+ * @param context > used context from canvas
+ * @param event > eventHandler
+ * @param scale > current scale
+ * @returns > calculated X and Y cursor position based on canvas size relative to viewport
  */
 export function getCursorPosition(context, event, scale) {
   if (context) {
     const rect = context.canvas.getBoundingClientRect();
-    let x = ((event.clientX - rect.left) / scale).toFixed(2);
-    let y = ((event.clientY - rect.top) / scale).toFixed(2);
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
     return { X: x, Y: y };
   }
 }
